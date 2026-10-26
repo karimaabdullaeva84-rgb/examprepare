@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ExamPrepare Mini App</title>
+    <!-- Telegram Web App SDK -->
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: var(--tg-theme-bg-color, #ffffff);
+            color: var(--tg-theme-text-color, #000000);
+            padding: 20px;
+            margin: 0;
+        }
+        .container {
+            max-width: 500px;
+            margin: auto;
+        }
+        textarea {
+            width: 100%;
+            height: 150px;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+            resize: vertical;
+        }
+        select, button {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+        button {
+            background-color: var(--tg-theme-button-color, #2481cc);
+            color: var(--tg-theme-button-text-color, #ffffff);
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>📚 Leksiya uchun Test Tuzuvchi</h2>
+        <p>Leksiya matnini kiriting va testlar sonini tanlang:</p>
+        
+        <textarea id="lectureText" placeholder="Leksiya matnini shu yerga yozing..."></textarea>
+        
+        <label for="testCount">Testlar soni:</label>
+        <select id="testCount">
+            <option value="5">5 ta</option>
+            <option value="10">10 ta</option>
+            <option value="15">15 ta</option>
+            <option value="20">20 ta</option>
+        </select>
+
+        <button onclick="sendDataToBot()">Test Tuzishni Boshlash 🚀</button>
+    </div>
+
+    <script>
+        let tg = window.Telegram.WebApp;
+        tg.expand(); // Mini App ni to'liq ekranga ochish
+
+        function sendDataToBot() {
+            let text = document.getElementById("lectureText").value;
+            let count = document.getElementById("testCount").value;
+            
+            if(!text.trim()) {
+                alert("Iltimos, matn kiriting!");
+                return;
+            }
+            
+            // WebApp orqali botga ma'lumot yuborish (JSON formatida)
+            let data = {
+                text: text,
+                count: count
+            };
+            
+            tg.sendData(JSON.stringify(data)); // Ma'lumotni botga yuborib, Mini App ni yopadi
+        }
+    </script>
+</body>
+</html>
